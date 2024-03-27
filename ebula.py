@@ -2,7 +2,9 @@ import pygame, time, csv, easygui, queue, sys, win32api
 
 #pygame & fenster initialisieren
 pygame.init()
-window = pygame.display.set_mode((1024,768),pygame.SCALED)
+screen_info = pygame.display.Info()
+screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME,display=1)
+window = pygame.Surface((1024,768))
 pygame.display.set_caption('EBuLa')
 
 #event que und pygame-font-dings
@@ -108,4 +110,6 @@ while True:
             shape = drawQueue.get()
             window.blit(shape[0], shape[1])
         except Exception as e: print(f'Zeichnungsfehler: {e}!')
+    
+    screen.blit(window, ((screen_info.current_w - 1024) / 2, ((screen_info.current_h - 768) / 2)))
     pygame.display.flip()
