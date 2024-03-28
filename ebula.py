@@ -11,15 +11,20 @@ big_font = pygame.font.SysFont('Arial', 28, True)
 
 #helferfunktion zur dateiauswahl und übergabe in dict()
 def loadFile() -> ...:
-    global table_json
+    global altn_name
     avail_tables = {}
+    avail_profiles = {}
     for file in os.listdir('./timetables/'):
         if file.endswith('.json'):
             table_json = json.load(open(f'./timetables/{file}', mode='r', encoding='UTF-8'))
             avail_tables[table_json['route']] = table_json['path']
+            try: avail_profiles[table_json['route']] = table_json['speed_profiles']
+            except KeyError: pass
         else: pass
     choice = easygui.choicebox('Fahrplan auswählen:', 'EBuLa Select', list(avail_tables.keys()))
     if choice == None: sys.exit(0)
+    try: altn_name = avail_profiles[choice]
+    except KeyError: pass
     pygame.display.set_caption(choice)
     return csv.DictReader(open(f'./timetables/{avail_tables[choice]}', mode='r', encoding='UTF-8'))
 
@@ -68,7 +73,7 @@ def generateTable(page: int, altn: bool) -> None:
     except IndexError: pass
 
     if altn:
-        font_obj = big_font.render(table_json['speed_profiles']['1b'], True, (0,0,0))
+        font_obj = big_font.render(altn_name['1b'], True, (0,0,0))
         drawQueue.put((font_obj, (15,720)))
         
 key_next = ord('T')
