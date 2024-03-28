@@ -1,3 +1,3 @@
 @echo off
-pyinstaller ebula.spec
+pyinstaller ebula.py -w -i icon.ico
 copy .\dist\ebula.exe .
