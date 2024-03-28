@@ -1,5 +1,41 @@
+#vscode
+.vscode
+*.code-workspace
+
+# other
 *.zip
+
+# build stuff
 *.exe
 build/
 dist/
+
+*.spec
+
+#venv
+virtual-environment/*
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
