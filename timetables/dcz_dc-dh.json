@@ -1,4 +1,7 @@
 {
-    "route": "Tharandter Rampe: Chemnitz - Dresden",
-    "path": "dcz_dc-dh.csv"
+    "route": "DCZ: Chemnitz - Dresden",
+    "path": "dcz_dc-dh.csv",
+    "speed_profiles": {
+        "1b": "GNT"
+    }
 }

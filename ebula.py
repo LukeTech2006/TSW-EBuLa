@@ -1,12 +1,7 @@
 import pygame, time, csv, json, easygui, queue, sys, os, win32api
 
-#pygame & fenster initialisieren
+#pygame initialisieren
 pygame.init()
-screen_info = pygame.display.Info()
-#screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
-#window = pygame.Surface((1024,768))
-window = pygame.display.set_mode((1024,768),pygame.SCALED)
-pygame.display.set_caption('EBuLa')
 
 #event que und pygame-font-dings
 drawQueue = queue.Queue()
@@ -16,6 +11,7 @@ big_font = pygame.font.SysFont('Arial', 28, True)
 
 #helferfunktion zur dateiauswahl und übergabe in dict()
 def loadFile() -> ...:
+    global table_json
     avail_tables = {}
     for file in os.listdir('./timetables/'):
         if file.endswith('.json'):
@@ -23,6 +19,7 @@ def loadFile() -> ...:
             avail_tables[table_json['route']] = table_json['path']
         else: pass
     choice = easygui.choicebox('Fahrplan auswählen:', 'EBuLa Select', list(avail_tables.keys()))
+    if choice == None: sys.exit(0)
     pygame.display.set_caption(choice)
     return csv.DictReader(open(f'./timetables/{avail_tables[choice]}', mode='r', encoding='UTF-8'))
 
@@ -49,17 +46,29 @@ def generateTable(page: int, altn: bool) -> None:
                 font_width = font_obj.get_rect().width
                 drawQueue.put((font_obj, (175 - font_width, 92 + ((14 - (i % 15)) * 38))))
             if rows[i]['Lage'] != '':
-                font_obj = n_font.render(rows[i]['Lage'], True, (255, 255, 255))
+                font_obj = n_font.render(rows[i]['Lage'].replace('<l>',''), True, (255, 255, 255))
                 font_width = font_obj.get_rect().width
                 drawQueue.put((font_obj, (295 - font_width, 92 + ((14 - (i % 15)) * 38))))
+                if rows[i]['Lage'].find('<l>') != -1:
+                    lineSurf = pygame.Surface((110, 2))
+                    lineSurf.fill((255, 255, 255))
+                    drawQueue.put((lineSurf, (193, 124 + ((14 - (i % 15)) * 38))))
             if rows[i]['Betriebsstelle'] != '':
                 text = rows[i]['Betriebsstelle']
-                font_obj = n_font.render(text, True, (255, 255, 255)) if text.find('<b>') < 0 else b_font.render(text.replace('<b>', ''), True, (255, 255, 255))
-                drawQueue.put((font_obj, (450, 92 + ((14 - (i % 15)) * 38))))
+                match text:
+                    case '¥':
+                        icon_obj = pygame.image.load('./icons/yen.png')
+                        drawQueue.put((icon_obj, (400, 89 + ((14 - (i % 15)) * 38))))
+                    case _:
+                        font_obj = n_font.render(text.replace('<V>',''), True, (255, 255, 255)) if text.find('<b>') < 0 else b_font.render(text.replace('<b>',''), True, (255, 255, 255))
+                        drawQueue.put((font_obj, (450, 92 + ((14 - (i % 15)) * 38))))
+                        if text.find('<V>') != -1:
+                            icon_obj = pygame.image.load('./icons/brw.png')
+                            drawQueue.put((icon_obj, (400, 89 + ((14 - (i % 15)) * 38))))
     except IndexError: pass
 
     if altn:
-        font_obj = big_font.render('ALTN Speed', True, (0,0,0))
+        font_obj = big_font.render(table_json['speed_profiles']['1b'], True, (0,0,0))
         drawQueue.put((font_obj, (15,720)))
         
 key_next = ord('T')
@@ -72,6 +81,10 @@ rows = list()
 for row in table: rows.append(row)
 
 #initialisieren mit hintergrund
+screen_info = pygame.display.Info()
+#screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
+#window = pygame.Surface((1024,768))
+window = pygame.display.set_mode((1024,768),pygame.SCALED)
 drawQueue.put((pygame.image.load('background.png'), (0, 0)))
 
 #uhr initialisieren
