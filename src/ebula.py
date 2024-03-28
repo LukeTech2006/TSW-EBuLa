@@ -3,7 +3,7 @@ import pygame, time, csv, json, easygui, queue, sys, os, win32api
 #pygame initialisieren
 pygame.init()
 
-#event que und pygame-font-dings
+#event queue und pygame-font-dings
 drawQueue = queue.Queue()
 n_font = pygame.font.SysFont('Arial', 24)
 b_font = pygame.font.SysFont('Arial', 24, True)
