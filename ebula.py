@@ -1,10 +1,11 @@
-import pygame, time, csv, easygui, queue, sys, win32api
+import pygame, time, csv, json, easygui, queue, sys, os, win32api
 
 #pygame & fenster initialisieren
 pygame.init()
 screen_info = pygame.display.Info()
-screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME,display=1)
-window = pygame.Surface((1024,768))
+#screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
+#window = pygame.Surface((1024,768))
+window = pygame.display.set_mode((1024,768),pygame.SCALED)
 pygame.display.set_caption('EBuLa')
 
 #event que und pygame-font-dings
@@ -15,8 +16,15 @@ big_font = pygame.font.SysFont('Arial', 28, True)
 
 #helferfunktion zur dateiauswahl und übergabe in dict()
 def loadFile() -> ...:
-    path = easygui.fileopenbox(title='Fahrplan auswählen', default='./*.csv')
-    return csv.DictReader(open(path, encoding='UTF-8'))
+    avail_tables = {}
+    for file in os.listdir('./timetables/'):
+        if file.endswith('.json'):
+            table_json = json.load(open(f'./timetables/{file}', mode='r', encoding='UTF-8'))
+            avail_tables[table_json['route']] = table_json['path']
+        else: pass
+    choice = easygui.choicebox('Fahrplan auswählen:', 'EBuLa Select', list(avail_tables.keys()))
+    pygame.display.set_caption(choice)
+    return csv.DictReader(open(f'./timetables/{avail_tables[choice]}', mode='r', encoding='UTF-8'))
 
 #helferfunktion zur zeichnungsfunktion
 def pushDrawQueue(source: pygame.Surface, dest: pygame.Rect) -> None:
@@ -111,5 +119,5 @@ while True:
             window.blit(shape[0], shape[1])
         except Exception as e: print(f'Zeichnungsfehler: {e}!')
     
-    screen.blit(window, ((screen_info.current_w - 1024) / 2, ((screen_info.current_h - 768) / 2)))
+    #screen.blit(window, ((screen_info.current_w - 1024) / 2, ((screen_info.current_h - 768) / 2)))
     pygame.display.flip()
