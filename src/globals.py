@@ -9,7 +9,7 @@ big_font = pygame.font.SysFont('Arial', 28, True)
 
 #datenpfade festlegen
 dir_self = os.path.dirname(os.path.realpath(__file__)) + '\\'
-dir_timetables = dir_self + 'timetables\\'
+dir_timetables = dir_self + 'timetables_old\\'
 dir_icons = dir_self + 'icons\\'
 
 #tastenschlüssel festlegen
