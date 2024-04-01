@@ -1,4 +1,6 @@
 altgraph==0.17.4
+customtkinter==5.2.2
+darkdetect==0.8.0
 easygui==0.98.3
 packaging==24.0
 pefile==2023.2.7

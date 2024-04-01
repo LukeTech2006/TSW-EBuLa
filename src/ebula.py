@@ -5,14 +5,14 @@ from globals import *
 #pygame initialisieren
 pygame.init()
 
-#initialisieren mit hintergrund
+# Initialisieren mit hintergrund
 screen_info = pygame.display.Info()
-#screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
-#window = pygame.Surface((1024,768))
+# screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
+# window = pygame.Surface((1024,768))
 window = pygame.display.set_mode((1024,768),pygame.SCALED)
 drawQueue.put((pygame.image.load(dir_self + 'background.png'), (0, 0)))
 
-#uhr initialisieren
+# Uhr Init
 clock = pygame.time.Clock()
 
 prev_pressed = win32api.GetKeyState(key_prev)
@@ -22,7 +22,7 @@ speed_pressed = win32api.GetKeyState(key_speed)
 altn_speed = False
 current_page = 0
 
-#event-loop zum zeichnen
+#event-loop zum zeichnen aka Main loop
 while True:
     clock.tick(5)
     for event in pygame.event.get():
