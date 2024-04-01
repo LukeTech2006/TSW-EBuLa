@@ -14,9 +14,9 @@ def loadFile() -> ...:
     global altn_name
     avail_tables = {}
     avail_profiles = {}
-    for file in os.listdir('./src/timetables/'):                                                        #! FIXME: nicht hard coden!
+    for file in os.listdir(dir_timetables):
         if file.endswith('.json'):
-            table_json = json.load(open(f'./src/timetables/{file}', mode='r', encoding='UTF-8'))        #! FIXME: nicht hard coden!
+            table_json = json.load(open(dir_timetables + file, mode='r', encoding='UTF-8'))
             avail_tables[table_json['route']] = table_json['path']
             try: avail_profiles[table_json['route']] = table_json['speed_profiles']
             except KeyError: pass
@@ -26,7 +26,7 @@ def loadFile() -> ...:
     try: altn_name = avail_profiles[choice]
     except KeyError: pass
     pygame.display.set_caption(choice)
-    return csv.DictReader(open(f'./src/timetables/{avail_tables[choice]}', mode='r', encoding='UTF-8')) #! FIXME: nicht hard coden!
+    return csv.DictReader(open(dir_timetables + avail_tables[choice], mode='r', encoding='UTF-8'))
 
 #helferfunktion zur zeichnungsfunktion
 def pushDrawQueue(source: pygame.Surface, dest: pygame.Rect) -> None:
@@ -62,23 +62,29 @@ def generateTable(page: int, altn: bool) -> None:
                 text = rows[i]['Betriebsstelle']
                 match text:
                     case '¥':
-                        icon_obj = pygame.image.load('./src/icons/yen.png')                         #! FIXME: nicht hard coden!
+                        icon_obj = pygame.image.load(dir_icons + 'yen.png')
                         drawQueue.put((icon_obj, (400, 89 + ((14 - (i % 15)) * 38))))
                     case _:
                         font_obj = n_font.render(text.replace('<V>',''), True, (255, 255, 255)) if text.find('<b>') < 0 else b_font.render(text.replace('<b>',''), True, (255, 255, 255))
                         drawQueue.put((font_obj, (450, 92 + ((14 - (i % 15)) * 38))))
                         if text.find('<V>') != -1:
-                            icon_obj = pygame.image.load('./src/icons/brw.png')                         #! FIXME: nicht hard coden!
+                            icon_obj = pygame.image.load(dir_icons + 'brw.png')
                             drawQueue.put((icon_obj, (400, 89 + ((14 - (i % 15)) * 38))))
     except IndexError: pass
 
     if altn:
         font_obj = big_font.render(altn_name['1b'], True, (0,0,0))
         drawQueue.put((font_obj, (15,720)))
-        
+
+#tastenschlüssel festlegen
 key_next = ord('T')
 key_prev = ord('G')
 key_speed = ord('M')
+
+#datenpfade festlegen
+dir_self = './src/'
+dir_timetables = dir_self + 'timetables/'
+dir_icons = dir_self + 'icons/'
 
 #fahrplandaten laden
 table = loadFile()
@@ -90,7 +96,7 @@ screen_info = pygame.display.Info()
 #screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
 #window = pygame.Surface((1024,768))
 window = pygame.display.set_mode((1024,768),pygame.SCALED)
-drawQueue.put((pygame.image.load('./src/background.png'), (0, 0)))                                  #! FIXME: nicht hard coden!
+drawQueue.put((pygame.image.load(dir_self + 'background.png'), (0, 0)))
 
 #uhr initialisieren
 clock = pygame.time.Clock()
@@ -110,7 +116,7 @@ while True:
             pygame.quit()
             sys.exit(0)
 
-    drawQueue.put((pygame.image.load('./src/background.png'), (0, 0)))                          #! FIXME: nicht hard coden!
+    drawQueue.put((pygame.image.load(dir_self + 'background.png'), (0, 0)))
     drawQueue.put((big_font.render(time.strftime('%d.%m.%Y'), True, (255, 255, 255)), (700,5)))
     drawQueue.put((big_font.render(time.strftime('%H:%M:%S'), True, (255, 255, 255)), (895,5)))
     generateTable(current_page, altn_speed)
