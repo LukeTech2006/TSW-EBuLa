@@ -1,4 +1,4 @@
-import pygame, queue
+import pygame, queue, os
 
 #event queue und pygame-font-dings
 drawQueue = queue.Queue()
@@ -8,9 +8,9 @@ b_font = pygame.font.SysFont('Arial', 24, True)
 big_font = pygame.font.SysFont('Arial', 28, True)
 
 #datenpfade festlegen
-dir_self = './src/'
-dir_timetables = dir_self + 'timetables/'
-dir_icons = dir_self + 'icons/'
+dir_self = os.path.dirname(os.path.realpath(__file__)) + '\\'
+dir_timetables = dir_self + 'timetables\\'
+dir_icons = dir_self + 'icons\\'
 
 #tastenschlüssel festlegen
 key_next = ord('T')
