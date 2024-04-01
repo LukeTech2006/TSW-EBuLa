@@ -1,0 +1,10 @@
+{
+    "route": "DCZ: Dresden - Chemnitz",
+    "version": "1.0.0",
+    "modules": [
+        "dh",
+        "dpa",
+        "dnw",
+        "dc"
+    ]
+}

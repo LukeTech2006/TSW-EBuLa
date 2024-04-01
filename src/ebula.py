@@ -1,5 +1,5 @@
 import pygame, time, sys, win32api
-from util import *
+from util.util import *
 from globals import *
 
 #pygame initialisieren
