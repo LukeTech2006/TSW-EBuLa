@@ -10,3 +10,4 @@ pyinstaller-hooks-contrib==2024.3
 pypiwin32==223
 pywin32==306
 pywin32-ctypes==0.2.2
+requests==2.31.0
