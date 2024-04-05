@@ -8,6 +8,8 @@ description = "A project for a EBULA in TSW"
 file.version = "1.0.0"
 
 # Insted of requirements.txt
+# Not used at the moment because of tHiNgS :)
+# -> PEP 735
 [dependency-groups]
 base = [
     "pypiwin32", 
@@ -16,6 +18,6 @@ base = [
     "customtkinter"
     ]
 dev = [
-    # {include = "base"}    # -> PEP 735
+    # {include = "base"}
     "pyinstaller",
     ]
