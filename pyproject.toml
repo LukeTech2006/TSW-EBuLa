@@ -1,4 +1,4 @@
-# 
+# Projekt Config
 [project]
 name = "TSW-EBULA"
 version = "0.1.0"
@@ -7,9 +7,9 @@ description = "A project for a EBULA in TSW"
 [EBULA]
 file.version = "1.0.0"
 
-# Insted of requirements.txt
-# Not used at the moment because of tHiNgS :)
-# -> PEP 735
+#! Insted of requirements.txt
+#! Not used at the moment because of tHiNgS :)
+#! -> PEP 735
 [dependency-groups]
 base = [
     "pypiwin32", 
