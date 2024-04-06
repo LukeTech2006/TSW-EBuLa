@@ -7,15 +7,16 @@ def load_poi() -> list:
 poi = load_poi()    # obj that holds all current poi's
 
 
-class PoiEntry(customtkinter.CTkComboBox):
+class PoiEntry(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
-        self.frame = super().__init__(master, values=("1","2","3","4"), width=200, **kwargs)
+        super().__init__(master, **kwargs)
 
         # Set elements
-        # self.frame = customtkinter.CTkFrame(master)
-        # self.input = customtkinter.CTkComboBox(self.frame, corner_radius=5, values=("1","2","3","4"))
+        self.input = customtkinter.CTkComboBox(self, width=200, values=("1","2","3","4"))
+        self.input.grid(row=0, column=0)
+        self.add = customtkinter.CTkButton(self, width=1, height=25, corner_radius=200, text="+")
+        self.add.grid(row=0, column=1, padx=(10,5), ipadx=0, ipady=0)
         # self.inputDialog = customtkinter.CTkInputDialog(title="Add Bestriebstelle", text="Füge eine Bestriebstelle hinzu.")
-        # self.input = customtkinter.CTkEntry(master, corner_radius=5,placeholder_text="Betriebstelle")
 
         # Set Defaults
 
