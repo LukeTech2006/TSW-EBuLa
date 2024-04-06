@@ -7,7 +7,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         # configure window
-        self.title("EBULA Editor - Map Modules")
+        self.title("EBULA Editor")
         self.geometry(f"{1250}x{750}")
 
         # # configure grid layout (4x4)

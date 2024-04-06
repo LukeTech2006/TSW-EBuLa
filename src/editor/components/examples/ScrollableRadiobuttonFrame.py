@@ -7,7 +7,7 @@ class ScrollableRadiobuttonFrame(customtkinter.CTkScrollableFrame):
         self.command = command
         self.radiobutton_variable = customtkinter.StringVar()
         self.radiobutton_list = []
-        for i, item in enumerate(item_list):
+        for item in range(len(item_list)):
             self.add_item(item)
 
     def add_item(self, item):

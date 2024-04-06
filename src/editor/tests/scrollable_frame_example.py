@@ -1,4 +1,3 @@
-import os, sys
 import customtkinter
 # from PIL import Image
 
@@ -44,7 +43,7 @@ class App(customtkinter.CTk):
         self.scrollable_radiobutton_frame.remove_item("item 3")
 
         # create scrollable label and button frame
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # current_dir = os.path.dirname(os.path.abspath(__file__))
         self.scrollable_label_button_frame = ScrollableLabelButtonFrame(master=self, width=300, command=self.label_button_frame_event, corner_radius=0)
         self.scrollable_label_button_frame.grid(row=0, column=2, padx=0, pady=0, sticky="nsew")
         for i in range(20):  # add items with images

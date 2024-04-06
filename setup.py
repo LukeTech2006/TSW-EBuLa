@@ -7,11 +7,11 @@ setup(
     packages=
         #* Include all that is specified
         find_packages(where=".",
-                      include=["src"]) +
+                      include=["src","src.*"]) +
         find_packages(where="src",
-                      include=["editor"]) +
+                      include=["editor", "editor.*"]) +
         find_packages(where='src/editor',
-                      include=["components", "windows"]),
+                      include=["components", "components.*", "windows", "windows.*"]),
         #* Include all that is found
         # find_packages(where=".") +
         # find_packages(where="src") +
