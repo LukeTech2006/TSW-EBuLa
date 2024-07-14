@@ -2,10 +2,10 @@ import pygame, time, sys, win32api
 from util.util import *
 from globals import *
 
-#pygame initialisieren
+# pygame initialisieren
 pygame.init()
 
-# Initialisieren mit hintergrund
+# Initialisieren mit Hintergrund
 screen_info = pygame.display.Info()
 # screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h),pygame.NOFRAME)
 # window = pygame.Surface((1024,768))
@@ -22,7 +22,7 @@ speed_pressed = win32api.GetKeyState(key_speed)
 altn_speed = False
 current_page = 0
 
-#event-loop zum zeichnen aka Main loop
+# event-loop zum zeichnen aka Main loop
 while True:
     clock.tick(5)
     for event in pygame.event.get():
@@ -50,12 +50,12 @@ while True:
         altn_speed = False if altn_speed else True
         speed_pressed = new_speed
 
-    #jedes element der drawQueue zeichnen
+    # jedes element der drawQueue zeichnen
     for _ in range(drawQueue.qsize()):
         try:
             shape = drawQueue.get()
             window.blit(shape[0], shape[1])
         except Exception as e: print(f'Zeichnungsfehler: {e}!')
     
-    #screen.blit(window, ((screen_info.current_w - 1024) / 2, ((screen_info.current_h - 768) / 2)))
+    # screen.blit(window, ((screen_info.current_w - 1024) / 2, ((screen_info.current_h - 768) / 2)))
     pygame.display.flip()
